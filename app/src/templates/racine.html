@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title></title>
+    <link rel="stylesheet" href="/css/racine.min.css" />
+  </head>
+  <body ng-app="app" ng-controller="ctrl">
+
+    <a href="/list">lister les participants</a><br />
+
+    <h2 class="bonjour" ng-show="Ps != ''">Félicitation {{Ps}}, vous avez bien été enregistré!</h2>
+
+    Pseudo: <input type="text" ng-model="people.pseudo" /><br />
+    Nom: <input type="text" ng-model="people.nom"/><br />
+    Prénom: <input type="text" ng-model="people.prenom"/><br />
+    Adresse: <input type="text" ng-model="people.adresse"/><br />
+    Email: <input type="email" ng-model="people.email"/><br />
+    <button class="submit" type= "button" ng-click="NC()">submit</button>
+
+
+    <script src="/socket.io/socket.io.js"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/angularjs/1.5.6/angular.js"></script>
+    <script src="/js/racine.js"></script>
+  </body>
+</html>

@@ -1,0 +1,10 @@
+{
+  "undef": true,
+  "camelcase": false,
+  "unused": true,
+  "globals": {
+    "MY_GLOBAL": true
+  },
+  "./src": "/app/src",
+  "./dist": "/app/dist" 
+}
