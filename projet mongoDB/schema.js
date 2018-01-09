@@ -1,4 +1,5 @@
 var mongoose = require('mongoose');
+var async = require('async');
 mongoose.connect('mongodb://localhost:27017/DelormeRosset');
 var Schema = mongoose.Schema;
 
@@ -92,7 +93,7 @@ var init = function () {
     });
 }
 
-init();
+//init();
 
 var findUser = function (id) {
     User.findById(id, function (err, user) {
@@ -100,10 +101,10 @@ var findUser = function (id) {
     })
 };
 
-var findAllUser = function () {
-    User.find({}, function (err, users) {
-        return users;
-    })
+var findAllUser = function (res) {
+    User.find({}, function (err, usrs) {
+        res.json(JSON.parse(usrs));
+    }).exec();
 };
 
 var createUser = function (nom, prenom, dateNaissance, login, password) {
@@ -171,6 +172,8 @@ var findAllGroupe = function () {
         return groupe;
     })
 };
+
+
 
 module.exports.User = {};
 module.exports.User.find = findUser;
