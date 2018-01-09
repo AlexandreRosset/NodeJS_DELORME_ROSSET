@@ -60,7 +60,6 @@ gr1.save(function (err) {
     Groupe.findOne({'libelle': 'gr1'}, function(err,obj) {
         var grp = obj;
 
-        console.log("grp" + grp._id);
 
         var usr1 = new User({
             nom: 'usr1',
@@ -91,3 +90,69 @@ gr1.save(function (err) {
 
     }).exec();
 });
+
+var findUser = function (id) {
+    User.findById(id, function (err, user) {
+        return user;
+    })
+};
+
+var findAllUser = function () {
+    User.find({}, function (err, users) {
+        return users;
+    })
+};
+
+var createUser = function (nom, prenom, dateNaissance, login, password) {
+    var usr = new User({
+        nom: nom,
+        prenom: prenom,
+        naissance: dateNaissance,
+        login: login,
+        password: password,
+        client: false,
+        groupe: []
+    });
+    usr.save();
+};
+
+var addGroupeUser = function (idUser, idGroupe) {
+    Groupe.findById(idGroupe, function (err, groupe) {
+        User.findOneAndUpdate({ '_id': idUser}, {
+            $push: {
+                groupe: groupe
+            }
+        }).exec();
+    })
+    User.findById(idUser, function (err, user) {
+        Groupe.findOneAndUpdate({ '_id': idGroupe}, {
+            $push: {
+                user: user
+            }
+        }).exec();
+    })
+};
+
+var deleteUser = function (idUser) {
+    User.findByIdAndRemove(idUser).exec();
+}
+
+var updateUser = function (nom, prenom, dateNaissance, login, password) {
+    var usr = new User({
+        nom: nom,
+        prenom: prenom,
+        naissance: dateNaissance,
+        login: login,
+        password: password,
+        client: false,
+        groupe: []
+    });
+    usr.save();
+};
+
+module.exports.User = {};
+module.exports.User.find = findUser;
+module.exports.User.findAll = findAllUser;
+module.exports.User.create = createUser;
+module.exports.User.addGroupe = addGroupeUser;
+module.exports.User.delete = deleteUser;
