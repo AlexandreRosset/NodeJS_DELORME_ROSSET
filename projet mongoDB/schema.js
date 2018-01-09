@@ -1,5 +1,5 @@
 let mongoose = require('mongoose');
-mongoose.createConnection('mongodb://localhost:27017/DelormeRosset');
+mongoose.connect('mongodb://localhost:27017/DelormeRosset');
 let Schema = mongoose.Schema;
 
 let userSchema = new Schema({
@@ -16,7 +16,8 @@ let userSchema = new Schema({
 let groupeSchema = new Schema({
     id: Schema.Types.ObjectId,
     libelle: Schema.Types.String,
-    description: Schema.Types.String
+    description: Schema.Types.String,
+    user: [{ type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
 let adresseSchema = new Schema({
@@ -49,26 +50,43 @@ let TypeAdresse = mongoose.model('TypeAdresse', type_adresseSchema);
 let AdresseTypeAdresseUser = mongoose.model('AdresseTypeAdresseUser', adresseTypeadresseUserSchema);
 
 
-let toto = new User({
-    nom: 'toto',
-    prenom: 'toto',
-    naissance: Date.now(),
-    login: 'toto@toto.com',
-    password: 'fradaliberbiche',
-    client: false,
-    groupe: []
+let gr1 = new Groupe({
+    libelle: 'gr1',
+    description: 'groupe par defaut',
+    user: []
 });
 
-let pouf = new Groupe({
-    libelle: 'pif',
-    description: 'paf'
-});
+gr1.save(function (err) {
+    Groupe.findOne({'libelle': 'gr1'}, function(err,obj) {
+        let grp = obj;
 
-toto.save(function (err) {
-    if (err) return handleError(err);
-    // saved!
-});
-pouf.save(function (err) {
-    if (err) return handleError(err);
-    // saved!
+        console.log("grp" + grp._id);
+
+        let usr1 = new User({
+            nom: 'usr1',
+            prenom: 'usr1',
+            naissance: Date.now(),
+            login: 'usr@usr.com',
+            password: 'fradlaliberbiche',
+            client: false,
+            groupe: []
+        });
+
+        usr1.groupe.push(grp);
+        usr1.save(function (err) {
+            User.find({}, function(err, obj) {
+                obj.forEach(function (usr) {
+                    console.log(usr._id + ":" + usr.groupe);
+                });
+            });
+            User.findOne({ 'nom': usr1.nom}, function (err, obj) {
+                let usrRecup = obj;
+                grp.user.push(usrRecup);
+                grp.save(function (err) {
+                    console.log(err);
+                });
+            })
+        });
+
+    }).exec();
 });

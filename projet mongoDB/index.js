@@ -11,7 +11,7 @@ app.get('/', function (req, res) {
 });
 app.get('/list', function (req, res) {
     res.sendfile(__dirname + '/app/src/templates/listeP.html');
-})
+});
 
 app.use('/js', express.static('src/js'));
 app.use('/css', express.static('dist/css'));
