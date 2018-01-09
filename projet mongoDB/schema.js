@@ -1,8 +1,8 @@
-let mongoose = require('mongoose');
+var mongoose = require('mongoose');
 mongoose.connect('mongodb://localhost:27017/DelormeRosset');
-let Schema = mongoose.Schema;
+var Schema = mongoose.Schema;
 
-let userSchema = new Schema({
+var userSchema = new Schema({
     id: Schema.Types.ObjectId,
     nom: Schema.Types.String,
     prenom: Schema.Types.String,
@@ -13,14 +13,14 @@ let userSchema = new Schema({
     groupe: [{ type: Schema.Types.ObjectId, ref: 'Groupe'}]
 });
 
-let groupeSchema = new Schema({
+var groupeSchema = new Schema({
     id: Schema.Types.ObjectId,
     libelle: Schema.Types.String,
     description: Schema.Types.String,
     user: [{ type: Schema.Types.ObjectId, ref: 'User'}]
 });
 
-let adresseSchema = new Schema({
+var adresseSchema = new Schema({
     id: Schema.Types.ObjectId,
     pays: Schema.Types.String,
     code_postal: Schema.Types.Number,
@@ -31,26 +31,26 @@ let adresseSchema = new Schema({
     email: Schema.Types.String
 });
 
-let type_adresseSchema = new Schema({
+var type_adresseSchema = new Schema({
     id: Schema.Types.ObjectId,
     libelle: Schema.Types.String
 });
 
-let adresseTypeadresseUserSchema = new Schema({
+var adresseTypeadresseUserSchema = new Schema({
     id: Schema.Types.ObjectId,
     user: { type: Schema.Types.ObjectId, ref: 'User'},
     adresse: { type: Schema.Types.ObjectId, ref: 'Adresse'},
     typeAdresse: { type: Schema.Types.ObjectId, ref: 'TypeAdresse'}
 });
 
-let User = mongoose.model('User', userSchema);
-let Groupe = mongoose.model('Groupe', groupeSchema);
-let Adresse = mongoose.model('Adresse', adresseSchema);
-let TypeAdresse = mongoose.model('TypeAdresse', type_adresseSchema);
-let AdresseTypeAdresseUser = mongoose.model('AdresseTypeAdresseUser', adresseTypeadresseUserSchema);
+var User = mongoose.model('User', userSchema);
+var Groupe = mongoose.model('Groupe', groupeSchema);
+var Adresse = mongoose.model('Adresse', adresseSchema);
+var TypeAdresse = mongoose.model('TypeAdresse', type_adresseSchema);
+var AdresseTypeAdresseUser = mongoose.model('AdresseTypeAdresseUser', adresseTypeadresseUserSchema);
 
 
-let gr1 = new Groupe({
+var gr1 = new Groupe({
     libelle: 'gr1',
     description: 'groupe par defaut',
     user: []
@@ -58,11 +58,11 @@ let gr1 = new Groupe({
 
 gr1.save(function (err) {
     Groupe.findOne({'libelle': 'gr1'}, function(err,obj) {
-        let grp = obj;
+        var grp = obj;
 
         console.log("grp" + grp._id);
 
-        let usr1 = new User({
+        var usr1 = new User({
             nom: 'usr1',
             prenom: 'usr1',
             naissance: Date.now(),
@@ -80,11 +80,12 @@ gr1.save(function (err) {
                 });
             });
             User.findOne({ 'nom': usr1.nom}, function (err, obj) {
-                let usrRecup = obj;
-                grp.user.push(usrRecup);
-                grp.save(function (err) {
-                    console.log(err);
-                });
+                var usrRecup = obj;
+                Groupe.findOneAndUpdate({ '_id': grp._id}, {
+                    $push: {
+                        user: usrRecup
+                    }
+                }).exec();
             })
         });
 
