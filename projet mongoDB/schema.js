@@ -137,17 +137,16 @@ var deleteUser = function (idUser) {
     User.findByIdAndRemove(idUser).exec();
 }
 
-var updateUser = function (nom, prenom, dateNaissance, login, password) {
-    var usr = new User({
-        nom: nom,
-        prenom: prenom,
-        naissance: dateNaissance,
-        login: login,
-        password: password,
-        client: false,
-        groupe: []
-    });
-    usr.save();
+var updateUser = function (idUser, nom, prenom, dateNaissance, login, password) {
+    User.findByIdAndUpdate(idUser, {
+        $set: {
+            nom: nom,
+            prenom: prenom,
+            naissance: dateNaissance,
+            login: login,
+            password: password
+        }
+    })
 };
 
 module.exports.User = {};
@@ -156,3 +155,4 @@ module.exports.User.findAll = findAllUser;
 module.exports.User.create = createUser;
 module.exports.User.addGroupe = addGroupeUser;
 module.exports.User.delete = deleteUser;
+module.exports.User.update = updateUser;
