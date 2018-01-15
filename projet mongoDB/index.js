@@ -45,6 +45,14 @@ app.get('/user/delete/:user_id', function (req, res) {
     });
 });
 
+app.post('/user/update/:id', function (req, res) {
+    Schema.User.findByIdAndUpdate(req.params.id, {
+        $set: req.body
+    }, function (err, doc) {
+        res.status(200).send();
+    })
+});
+
 app.get('/group', function (req, res) {
     Schema.Groupe.find({ 'isActive': true } , function (err, usrs) {
         res.json(usrs);
