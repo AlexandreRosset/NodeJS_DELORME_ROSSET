@@ -25,10 +25,10 @@ app.get('/', function (req, res) {
         res.json(usrs);
     }).limit(10).exec();
 });
-app.get('/search/user/:ofset/:limit', function (req, res) {
+app.get('/search/user/:offset/:limit', function (req, res) {
     Schema.User.find({ 'isActive': true }, function (err, usrs) {
         res.json(usrs);
-    }).skip(req.params.ofset).limit(req.body.limit).exec();
+    }).skip(req.params.offset).limit(req.body.limit).exec();
 });
 app.get('/user/:id', function (req, res) {
     Schema.User.findById(req.params.id , function (err, usrs) {
@@ -84,10 +84,10 @@ app.get('/link/user/:user_id/group/:group_id', function (req, res) {
 
 //Groupe
 
-app.get('/search/group/:ofset/:limit', function (req, res) {
+app.get('/search/group/:offset/:limit', function (req, res) {
     Schema.Groupe.find({ 'isActive': true } , function (err, usrs) {
         res.json(usrs);
-    }).skip(req.params.ofset).limit(req.body.limit).exec();
+    }).skip(req.params.offset).limit(req.body.limit).exec();
 });
 
 app.get('/group/:id', function (req, res) {
@@ -126,10 +126,10 @@ app.post('/group/update/:id', function (req, res) {
 
 //Adresse
 
-app.get('/search/adress/:ofset/:limit', function (req, res) {
+app.get('/search/adress/:offset/:limit', function (req, res) {
     Schema.Adresse.find({ 'isActive': true }, function (err, adr) {
         res.json(adr);
-    }).skip(req.params.ofset).limit(req.body.limit).exec();
+    }).skip(req.params.offset).limit(req.body.limit).exec();
 });
 
 app.get('/adress/:id', function (req, res) {
@@ -172,10 +172,10 @@ app.post('/adress/update/:id', function (req, res) {
 
 //type Adresse
 
-app.get('/search/typeadress/:ofset/:limit', function (req, res) {
+app.get('/search/typeadress/:offset/:limit', function (req, res) {
     Schema.TypeAdresse.find({ 'isActive': true }, function (err, adr) {
         res.json(adr);
-    }).skip(req.params.ofset).limit(req.body.limit).exec();
+    }).skip(req.params.offset).limit(req.body.limit).exec();
 });
 
 app.get('/typeadress/:id', function (req, res) {
@@ -222,10 +222,10 @@ app.get('/link/adress/:adress/typeAdresse/:type/user/:user', function (req, res)
     res.status(200).send();
 });
 
-app.get('/search/link/:ofset/:limit', function (req, res) {
+app.get('/search/link/:offset/:limit', function (req, res) {
     Schema.AdresseTypeAdresseUser.find({ 'isActive': true }, function (err, adr) {
         res.json(adr);
-    }).skip(req.params.ofset).limit(req.body.limit).exec();
+    }).skip(req.params.offset).limit(req.body.limit).exec();
 });
 
 httpserver.listen(8081);
