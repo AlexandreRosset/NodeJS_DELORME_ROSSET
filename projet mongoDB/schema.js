@@ -176,5 +176,7 @@ var findAllGroupe = function () {
 
 
 module.exports.User = User;
-
 module.exports.Groupe = Groupe;
+module.exports.Adresse = Adresse;
+module.exports.TypeAdresse = TypeAdresse;
+module.exports.AdresseTypeAdresseUser = AdresseTypeAdresseUser;

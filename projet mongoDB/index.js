@@ -31,6 +31,11 @@ app.post('/user', function (req, res) {
         groupe: []
     });
     usr.save();
+    res.status(200).send();
+});
+app.get('/user/delete/:id', function (req, res) {
+    Schema.User.findByIdAndRemove(req.params.id).exec();
+    res.status(200).send();
 });
 
 
