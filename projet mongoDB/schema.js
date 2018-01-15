@@ -175,15 +175,6 @@ var findAllGroupe = function () {
 
 
 
-module.exports.User = {};
-module.exports.User.find = findUser;
-module.exports.User.findAll = findAllUser;
-module.exports.User.create = createUser;
-module.exports.User.addGroupe = addGroupeUser;
-module.exports.User.delete = deleteUser;
-module.exports.User.update = updateUser;
+module.exports.User = User;
 
-module.exports.Groupe = {};
-module.exports.Groupe.create = createGroupe;
-module.exports.Groupe.find = findGroupe;
-module.exports.Groupe.findAll = findAllGroupe;
+module.exports.Groupe = Groupe;
