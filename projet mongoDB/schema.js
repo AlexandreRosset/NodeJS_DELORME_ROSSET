@@ -11,14 +11,16 @@ var userSchema = new Schema({
     login: Schema.Types.String,
     password: Schema.Types.String,
     client: Schema.Types.Boolean,
-    groupe: [{ type: Schema.Types.ObjectId, ref: 'Groupe'}]
+    groupe: [{ type: Schema.Types.ObjectId, ref: 'Groupe'}],
+    isActive: Schema.Types.Boolean
 });
 
 var groupeSchema = new Schema({
     id: Schema.Types.ObjectId,
     libelle: Schema.Types.String,
     description: Schema.Types.String,
-    user: [{ type: Schema.Types.ObjectId, ref: 'User'}]
+    user: [{ type: Schema.Types.ObjectId, ref: 'User'}],
+    isActive: Schema.Types.Boolean
 });
 
 var adresseSchema = new Schema({
@@ -29,19 +31,22 @@ var adresseSchema = new Schema({
     rue: Schema.Types.String,
     num_rue: Schema.Types.String,
     num_tel: Schema.Types.Number,
-    email: Schema.Types.String
+    email: Schema.Types.String,
+    isActive: Schema.Types.Boolean
 });
 
 var type_adresseSchema = new Schema({
     id: Schema.Types.ObjectId,
-    libelle: Schema.Types.String
+    libelle: Schema.Types.String,
+    isActive: Schema.Types.Boolean
 });
 
 var adresseTypeadresseUserSchema = new Schema({
     id: Schema.Types.ObjectId,
     user: { type: Schema.Types.ObjectId, ref: 'User'},
     adresse: { type: Schema.Types.ObjectId, ref: 'Adresse'},
-    typeAdresse: { type: Schema.Types.ObjectId, ref: 'TypeAdresse'}
+    typeAdresse: { type: Schema.Types.ObjectId, ref: 'TypeAdresse'},
+    isActive: Schema.Types.Boolean
 });
 
 var User = mongoose.model('User', userSchema);
