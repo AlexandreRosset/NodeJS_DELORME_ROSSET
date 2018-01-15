@@ -10,7 +10,16 @@ var Schema = require('./schema');
 httpserver = http.createServer(app);
 app.use(bodyParser.json());
 
+app.get('/autentificate', function (req, res) {
+   Schema.User.find({ 'login': req.body.login})
+});
+
 app.get('/', function (req, res) {
+    Schema.User.find({ 'isActive': true }, function (err, usrs) {
+        res.json(usrs);
+    }).limit(10).exec();
+});
+app.get('/user', function (req, res) {
     Schema.User.find({ 'isActive': true }, function (err, usrs) {
         res.json(usrs);
     }).limit(10).exec();
@@ -148,13 +157,64 @@ app.get('/adress/delete/:adress_id', function (req, res) {
 });
 
 app.post('/adress/update/:id', function (req, res) {
-    Schema.Groupe.findByIdAndUpdate(req.params.id, {
+    Schema.Adresse.findByIdAndUpdate(req.params.id, {
         $set: req.body
     }, function (err, doc) {
         res.status(200).send();
     })
 });
 
+//type Adresse
+
+app.get('/typeadress', function (req, res) {
+    Schema.TypeAdresse.find({ 'isActive': true }, function (err, adr) {
+        res.json(adr);
+    }).exec();
+});
+
+app.get('/typeadress/:id', function (req, res) {
+    Schema.TypeAdresse.findById(req.params.id , function (err, usrs) {
+        res.json(usrs);
+    }).exec();
+});
+app.post('/typeadress', function (req, res) {
+    var TyAdr = new Schema.TypeAdresse({
+        libelle: req.body.libelle,
+        isActive: true
+    });
+    TyAdr.save();
+    res.status(200).send();
+});
+app.get('/typeadress/delete/:typeadress_id', function (req, res) {
+    Schema.TypeAdresse.findByIdAndUpdate(req.params.adress_id, {
+        $set: {
+            isActive: false
+        }
+    }, function (err, stat) {
+        console.log(err);
+        res.status(200).send();
+    });
+});
+
+app.post('/typeadress/update/:id', function (req, res) {
+    Schema.TypeAdresse.findByIdAndUpdate(req.params.id, {
+        $set: req.body
+    }, function (err, doc) {
+        res.status(200).send();
+    })
+});
+
+//lien adresse / typeAdresse / User
+
+app.get('/link/adress/:adress/typeAdresse/:type/user/:user', function (req, res) {
+    var lien = new Schema.AdresseTypeAdresseUser({
+        user: req.params.user,
+        adresse: req.params.adresse,
+        typeAdresse: req.params.type
+    });
+    lien.save();
+    res.status(200).send();
+});
 
 httpserver.listen(8081);
 
